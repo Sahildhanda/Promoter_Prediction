@@ -1,16 +1,3 @@
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-A
-B
+"use strict";
 
-
+console.log("Hello World");
