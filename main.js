@@ -10,7 +10,6 @@ if(!filePath){
 	console.log("Please enter the sequence file path.");
 	return 0;
 }
-console.log(src)
 
 src.readSequenceFile(filePath, function(e){
 	if(e) return console.log(e);
