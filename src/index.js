@@ -1,5 +1,6 @@
 "use strict";
 
 module.exports = {
-	readSequenceFile: require('./readSequenceFile')
+	readSequenceFile: require('./readSequenceFile'),
+	getParametersDetails: require('./getParametersDetails')
 };

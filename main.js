@@ -8,13 +8,15 @@ var filePath = args[0];
 
 if(!filePath){
 	console.log("Please enter the sequence file path.");
-	return 0;
 }
 
-src.readSequenceFile(filePath, function(e){
-	if(e) return console.log(e);
+else{
+	src.readSequenceFile(filePath, function(e){
+		if(e) return console.log(e);
 
-	console.log(utils.sequenceMap);
-});
+		src.getParametersDetails.iterateSequences(function(e){
+			if(e) return console.log(e);
+		});
+	});
+}
 
-return 0;
