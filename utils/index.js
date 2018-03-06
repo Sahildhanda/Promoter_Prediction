@@ -1,5 +1,6 @@
 "use strict";
 
 module.exports = {
-  sequenceMap: require('./sequenceMap')
+  sequenceMap: require('./sequenceMap'),
+  parameterMap: require('./parameterMap')
 };

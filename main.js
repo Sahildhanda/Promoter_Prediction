@@ -14,8 +14,9 @@ else{
 	src.readSequenceFile(filePath, function(e){
 		if(e) return console.log(e);
 
-		src.getParametersDetails.iterateSequences(function(e){
+		src.getParametersDetails.calculateParameters(1,function(e){
 			if(e) return console.log(e);
+			
 		});
 	});
 }

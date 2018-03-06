@@ -6,6 +6,8 @@
 #include<iostream>
 #include<cmath>
 #include<string.h>
+#include <stdio.h>
+#include <cstdlib>
  
 using namespace std;
 
@@ -59,18 +61,18 @@ long double a=0,b=0,c=0,d=0,e=0,f=0,g=0,h=0,i=0,j=0,k=0,l=0,ma=0,n=0,o=0,p=0,q=0
         		if((b_arr2[m-1]=='A'||b_arr2[m-1]=='a') && (b_arr2[m] =='A' || b_arr2[m] =='a'))
                                 {
 				a=-0.30; b=0.05; c=0.57; d=0.75; e=1.48; f=-0.14; g=0.16; h=-0.02; i=-1.04; j=15.36; k=-2.99; l=-0.11; ma=-0.20; n=3.25; o=0.63; p=-0.08; q=35.67; r=3.27; s=35.56; t=-53.46; u=41.15; v=48.69; w=133.56; x=-1.43; y=-95.86; z=-108.49; aa=118.36; ab=39.27; ac=-5.44; ad=-26.71; ae=-171.84;
-				fprintf(fq_a, "%Lf\n", a);
-				fprintf(fq_b, "%Lf\n", b);
-				fprintf(fq_c, "%Lf\n", c);
-				fprintf(fq_d, "%Lf\n", d);
-				fprintf(fq_e, "%Lf\n", e);
-				fprintf(fq_f, "%Lf\n", f);
-				fprintf(fq_g, "%Lf\n", g);
-				fprintf(fq_h, "%Lf\n", h);
-				fprintf(fq_i, "%Lf\n", i);
+                				fprintf(fq_a, "%Lf\n", a);
+                				fprintf(fq_b, "%Lf\n", b);
+                				fprintf(fq_c, "%Lf\n", c);
+                				fprintf(fq_d, "%Lf\n", d);
+                				fprintf(fq_e, "%Lf\n", e);
+                				fprintf(fq_f, "%Lf\n", f);
+                				fprintf(fq_g, "%Lf\n", g);
+                				fprintf(fq_h, "%Lf\n", h);
+                				fprintf(fq_i, "%Lf\n", i);
                                 fprintf(fq_j, "%Lf\n", j);
                                 fprintf(fq_k, "%Lf\n", k);
-      				fprintf(fq_l, "%Lf\n", l);
+                      			fprintf(fq_l, "%Lf\n", l);
                                 fprintf(fq_m, "%Lf\n", ma);
                                 fprintf(fq_n, "%Lf\n", n);
                                 fprintf(fq_o, "%Lf\n", o);
@@ -993,5 +995,4 @@ long double a=0,b=0,c=0,d=0,e=0,f=0,g=0,h=0,i=0,j=0,k=0,l=0,ma=0,n=0,o=0,p=0,q=0
 	fclose(fq_ac);
 	fclose(fq_ad);
 	fclose(fq_ae);
-
 }    
