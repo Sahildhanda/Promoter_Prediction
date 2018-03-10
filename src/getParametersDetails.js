@@ -11,20 +11,14 @@ var getParameterDetails = {
 	iterateSequences: function(cb){
 		var keys = Object.keys(sequence_map);
 
-		return recurser(keys);
+		keys.forEach(function(key){
+			parameters_map.normalized_params_map[key] = self.calculateParameters(key);
+		});
 
-		function recurser(keys){
-			if(!keys.length) return cb();
-			var key = keys.pop();
-			self.calculateParameters(key, function(e){
-				if(e) return cb(e);
-				return recurser(keys);
-
-			});
-		}
+		return cb();
 	},
 
-	calculateParameters: function(key, cb){
+	calculateParameters: function(key){
 		var b_arr2 = sequence_map[key];
 		var param_map = {a:[],b:[],c:[],d:[],e:[],f:[],g:[],h:[],i:[],j:[],k:[],l:[],ma:[],n:[],o:[],p:[],q:[],r:[],s:[],t:[],u:[],v:[],w:[],x:[],y:[],z:[],aa:[],ab:[],ac:[],ad:[],ae:[]};
 		var noofbases=0;
@@ -35,8 +29,10 @@ var getParameterDetails = {
 		if(!noofbases) return cb();
 
 		for(var m =1; m<noofbases; m++){
-			if((b_arr2[m-1]==='A'||b_arr2[m-1]==='a') && (b_arr2[m] ==='A' || b_arr2[m] ==='a')){
-				a=-0.30; b=0.05; c=0.57; d=0.75; e=1.48; f=-0.14; g=0.16; h=-0.02; i=-1.04; j=15.36; k=-2.99; l=-0.11; ma=-0.20; n=3.25; o=0.63; p=-0.08; q=35.67; r=3.27; s=35.56; t=-53.46; u=41.15; v=48.69; w=133.56; x=-1.43; y=-95.86; z=-108.49; aa=118.36; ab=39.27; ac=-5.44; ad=-26.71; ae=-171.84;
+
+        		if((b_arr2[m-1]=='A' && b_arr2[m]=='A') || (b_arr2[m-1]=='T' && b_arr2[m]=='T'))
+				{
+				 a=-0.24586;     b=0.004276;     c=-0.61382;     d=0.596711;     e=1.421711;     f=0.128291;     g=-0.17956;     h=0.120633;     i=-1.48165;     j=-15.3082;     k=3.158861;     l=-0.11;        ma=-0.2; n=3.25; o=0.63; p=-0.08;        q=35.67;        r=3.27; s=35.56;        t=-55.5495;     u=51.04402;     v=50.77228;     w=128.4076;     x=-5.92446;     y=-96.656;      z=-110.254;     aa=118.7842;    ab=38.99565;    ac=-5.44;       ad=-26.71;      ae=-171.84;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -68,9 +64,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='T' || b_arr2[m-1]==='t') && (b_arr2[m] ==='T' || b_arr2[m] ==='t')){
-				a=-0.16; b=-0.07; c=-2.43; d=0.36; e=1.33; f=0.10; g=-0.20; h=0.28; i=-5.60; j=-15.22; k=3.43; l=-0.11; ma=-0.20; n=3.25; o=0.63; p=-0.08; q=35.67; r=3.27; s=35.56; t=-59.28; u=68.72; v=54.49; w=119.18; x=-13.95; y=-98.07; z=-113.39; aa=119.53; ab=38.50; ac=-5.44; ad=-26.71; ae=-171.84;
+
+				}
+			else if((b_arr2[m-1]=='G' && b_arr2[m]=='G') || (b_arr2[m-1] =='C' && b_arr2[m] =='C'))
+                                {
+				a=0.584605;     b=-0.07763;     c=9.909211;     d=3.127632;     e=2.585526;     f=1.2239;       g=-1.1225;      h=1.6701;       i=8.842;        j=5.707;        k=5.719;        l=0.38; ma=0.71;        n=2.96; o=-1.62;        p=-2.55;        q=29.49;        r=2.73; s=31.57;        t=-38.322;      u=39.807;       v=44.997;       w=129.998;      x=-56.716;      y=-61.65;       z=-103.913;     aa=96.172;      ab=37.361;      ac=-8.48;       ad=-26.28;      ae=-166.76;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -102,9 +100,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='G' || b_arr2[m-1]==='g') && (b_arr2[m] ==='G' || b_arr2[m] ==='g')){
-				a=0.61; b=0.06; c=17.90; d=2.71; e=3.02; f=2.10; g=-2.33; h=2.53; i=14.79; j=11.03; k=9.00; l=0.38; ma=0.71; n=2.96; o=-1.62; p=-2.55; q=29.49; r=2.73; s=31.57; t=-24.94; u=57.43; v=53.11; w=139.26; x=-54.51; y=-62.07; z=-100.34; aa=98.24; ab=37.03; ac=-8.48; ad=-26.28; ae=-166.76;
+			
+				}
+                	else if((b_arr2[m-1]=='T'||b_arr2[m-1]=='t') && (b_arr2[m] =='A'|| b_arr2[m] =='a'))
+                         	{
+				a=0.101842;     b=-0.28579;     c=0.547368;     d=-0.76579;     e=1.471053;     f=0.026053;     g=-0.17737;     h=0.084737;     i=-0.32632;     j=-14.0368;     k=3.305263;     l=-0.05;        ma=0.37;        n=3.39; o=-2.71;        p=1.74; q=32.05;        r=3.41; s=32;   t=-50.82;       u=29.23;        v=53.74;        w=127.846;      x=-37.772;      y=-61.97;       z=-106.74;      aa=119.92;      ab=37.824;      ac=-5.83;       ad=-26.9;       ae=-174.35;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -136,9 +136,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='C'|| b_arr2[m-1]==='c') && (b_arr2[m] ==='C'||b_arr2[m] ==='c')){
-				a=0.54; b=-0.32; c=-3.78; d=3.85; e=1.84; f=0.42; g=-0.01; h=0.88; i=3.35; j=0.80; k=2.69; l=0.38; ma=0.71; n=2.96; o=-1.62; p=-2.55; q=29.49; r=2.73; s=31.57; t=-51.70; u=22.18; v=36.88; w=120.73; x=-58.92; y=-61.23; z=-107.48; aa=94.1; ab=37.68; ac=-8.48; ad=-26.28; ae=-166.76;
+
+				}
+	                else if((b_arr2[m-1]=='C'|| b_arr2[m-1]=='c') && (b_arr2[m] =='G'|| b_arr2[m] =='g'))
+        	                {
+				a=0.70475;      b=0.060125;     c=2.910625;     d=0.303125;     e=1.48875;      f=0.355364;     g=-0.35755;     h=0.561455;     i=2.413182;     j=-3.27955;     k=-0.84909;     l=0.24; ma=0.68;        n=3.33; o=1.75; p=4.29; q=37.38;        r=3.33; s=39.1; t=-43.178;      u=57.555;       v=51.502;       w=132.616;      x=-67.013;      y=-62.643;      z=-106.586;     aa=103.3;       ab=37.951;      ac=-8.05;       ad=-27.93;      ae=-176.88;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -170,9 +172,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='T'||b_arr2[m-1]==='t') && (b_arr2[m] ==='A'|| b_arr2[m] ==='a')){
-				a=0.10; b=-0.29; c=0.55; d=-0.77; e=1.47; f=0.03; g=-0.18; h=0.08; i=-0.33; j=-14.04; k=3.31; l=-0.05; ma=0.37; n=3.39; o=-2.71; p=1.74; q=32.05; r=3.41; s=32.00; t=-50.82; u=29.23; v=53.74; w=127.84; x=-37.72; y=-61.97; z=-106.74; aa=119.92; ab=37.82; ac=-5.83; ad=-26.90; ae=-174.35;
+
+				}
+                	else if((b_arr2[m-1]=='G'||b_arr2[m-1]=='g') && (b_arr2[m] =='C'||b_arr2[m] =='c'))
+                        	{
+				a=0.593382;     b=0.082647;     c=0.364706;     d=2.507353;     e=1.244118;     f=0.021286;     g=-0.13686;     h=0.284;        i=-0.98286;     j=-10.4429;     k=-1.11571;     l=-0.28;        ma=0.17;        n=3.35; o=-2.68;        p=-5.28;        q=31.09;        r=3.29; s=30.56;        t=-48.267;      u=36.968;       v=36.646;       w=129.951;      x=-70.502;      y=-63.978;      z=-109.979;     aa=84.877;      ab=38.594;      ac=-8.72;       ad=-28.13;      ae=-165.58;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -204,9 +208,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='C'|| b_arr2[m-1]==='c') && (b_arr2[m] ==='G'|| b_arr2[m] ==='g')){
-			a=0.70; b=0.06; c=2.91; d=0.30; e=1.49; f=0.36; g=-0.36; h=0.56; i=2.41; j=-3.28; k=-0.85; l=0.24; ma=0.68; n=3.33; o=1.75; p=4.29; q=37.38; r=3.33; s=39.10; t=-43.17; u=57.55; v=51.50; w=132.61; x=-67.01; y=-62.64; z=-106.58; aa=103.2; ab=37.95; ac=-8.05; ad=-27.93; ae=-176.88;
+
+				}
+	                else if((b_arr2[m-1]=='A'||b_arr2[m-1]=='a') && (b_arr2[m] =='T'||b_arr2[m] =='t'))
+        	                {
+				a=-0.17819;     b=-0.02597;     c=-0.25972;     d=0.461111;     e=1.2125;       f=0.01375;      g=-0.13375;     h=0.147222;     i=0.279167;     j=-16.5361;     k=4.109722;     l=-0.06;        ma=-0.44;       n=3.31; o=-0.9; p=-2.62;        q=33.42;        r=3.33; s=33.68;        t=-51.913;      u=59.981;       v=47.175;       w=125.847;      x=-31.23;       y=-93.609;      z=-113.738;     aa=107.8554;    ab=40.016;      ac=-5.35;       ad=-27.2;       ae=-173.7;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -238,9 +244,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='G'||b_arr2[m-1]==='g') && (b_arr2[m] ==='C'||b_arr2[m] ==='c')){
-				a=0.59; b=0.08; c=0.36; d=2.51; e=1.24; f=0.02; g=-0.14; h=0.28; i=-0.98; j=-10.44; k=-1.12; l=-0.28; ma=0.17; n=3.35; o=-2.68; p=-5.28; q=31.09; r=3.29; s=30.56; t=-48.26; u=36.96; v=36.64; w=129.95; x=-70.50; y=-63.97; z=-109.98; aa=84.87; ab=38.59; ac=-8.72; ad=-28.13; ae=-165.58;
+
+				}
+                	else if((b_arr2[m-1]=='A' && b_arr2[m]=='C') || (b_arr2[m-1]=='G' && b_arr2[m]=='T'))
+                        	{
+				a=-0.03125;     b=-0.0505;      c=0.68; d=2.51; e=1.25; f=0.055;        g=-0.12481;     h=0.572885;     i=-5.57885;     j=-9.83846;     k=2.109615;     l=-0.12;        ma=0.73;        n=3.66; o=-4.75;        p=-0.6; q=34.79;        r=2.97; s=37.6; t=-45.4742;     u=42.118;       v=51.8606;      w=126.878;      x=-34.3212;     y=-55.7666;     z=-116.5469;    aa=106.334;     ab=38.65;       ac=-7.14;       ad=-27.73;      ae=-171.11;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -272,10 +280,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='A'||b_arr2[m-1]==='a') && (b_arr2[m] ==='T'||b_arr2[m] ==='t')){
-				a=-0.18; b=-0.03; c=-0.26; d=0.46; e=1.21; f=0.01; g=-0.13; h=0.15; i=0.28; j=-16.54; k=4.11; l=-0.06; ma=-0.44; n=3.31; o=-0.90; p=-2.62; q=33.42; r=3.33; s=33.68; t=-51.91; u=59.98; v=47.17; w=125.84; x=-31.23; y=-93.60; z=-113.73; aa=107.85; ab=40.01; ac=-5.35; ad=-27.20; ae=-173.70;
-				
+
+				}
+			else if((b_arr2[m-1]=='C' && b_arr2[m]=='A') || (b_arr2[m-1] =='T' && b_arr2[m] =='G'))
+                        	{
+				a=0.311563;     b=-0.0675;      c=3.004688;     d=0.175;        e=1.054688;     f=-0.00182;     g=-0.14879;     h=0.156212;     i=0.075758;     j=-10.8242;     k=2.072727;     l=-0.07;        ma=0.52;        n=3.29; o=-3.27;        p=1.54; q=36.74;        r=3.21; s=37.25;        t=-52.023;      u=41.3456;      v=35.389;       w=131.452;      x=-75.781;      y=-60.38;       z=-91.5032;     aa=73.933;      ab=38.744;      ac=-7.01;       ad=-27.15;      ae=-179.01;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -307,9 +316,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='A'||b_arr2[m-1]==='a') && (b_arr2[m] ==='C'||b_arr2[m] ==='c')){
-				a=0.20; b=-0.07; c=-1.53; d=4.66; e=1.65; f=0.15; g=-0.08; h=0.77; i=-7.83; j=-10.03; k=4.27; l=-0.12; ma=0.73; n=3.66; o=-4.75; p=-0.60; q=34.79; r=2.97; s=37.60; t=-44.87; u=43.41; v=42.43; w=127.84; x=-56.57; y=-41.16; z=-118.68; aa=92.67; ab=39.85; ac=-7.14; ad=-27.73; ae=-171.11;
+
+				}
+                	else if((b_arr2[m-1]=='A' && b_arr2[m]=='G') || (b_arr2[m-1] =='C' && b_arr2[m] =='T'))
+                        	{
+				a=0.485909;     b=-0.02864;     c=1.825;        d=3.722727;     e=1.652273;     f=-0.06364;     g=-0.16818;     h=-0.14614;     i=-0.85;        j=-11.7341;     k=-3.66818;     l=-0.27;        ma=0.21;        n=3.02; o=3.69; p=-7.27;        q=31;   r=3.06; s=19.06;        t=-36.214;      u=36.155;       v=43.87;        w=129.955;      x=-43.587;      y=-34.57;       z=-88.341;      aa=73.08;       ab=38.941;      ac=-6.27;       ad=-26.89;      ae=-174.93;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -341,9 +352,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='G'||b_arr2[m-1]==='g') && (b_arr2[m] ==='T'||b_arr2[m] ==='t')){
-				a=-0.31; b=-0.02; c=3.38; d=-0.12; e=0.76; f=-0.12; g=-0.20; h=0.20; i=-1.33; j=-9.48; k=-1.97; l=-0.12; ma=0.73; n=3.66; o=-4.75; p=-0.60; q=34.79; r=2.97; s=37.60; t=-46.40; u=40.13; v=66.36; w=125.39; x=-0.09; y=-78.23; z=-113.25; aa=127.35; ab=36.80; ac=-7.14; ad=-27.73; ae=-171.11;
+
+				}
+                	else if((b_arr2[m-1]=='G' && b_arr2[m]=='A') || (b_arr2[m-1] =='T' && b_arr2[m] =='C'))
+                        	{
+				a=-0.15833;     b=0.08; c=0.525926;     d=0.751852;     e=1.177778;     f=0.049815;     g=-0.19926;     h=0.21463;      i=-1.16852;     j=-13.1352;     k=0.942593;     l=0.04; ma=-0.2;        n=3.32; o=2.21; p=2.69; q=37.74;        r=3.33; s=37.81;        t=-42.611;      u=54.835;       v=53.374;       w=131.432;      x=-8.081;       y=-94.004;      z=-110.983;     aa=118.188;     ab=37.945;      ac=-7.8;        ad=-26.78;      ae=-167.6;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -375,9 +388,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='C'||b_arr2[m-1]==='c') && (b_arr2[m] ==='A'||b_arr2[m] ==='a')){
-				a=0.26; b=-0.27; c=3.06; d=-0.57; e=0.97; f=0.09; g=-0.15; h=0.24; i=0.22; j=-10.53; k=3.02; l=-0.07; ma=0.52; n=3.29; o=-3.27; p=1.54; q=36.74; r=3.21; s=37.25; t=-49.95; u=48.33; v=21.94; w=132.85; x=-82.03; y=-70.58; z=-99.35; aa=75.64; ab=39.46; ac=-7.01; ad=-27.15; ae=-179.01;
+
+				}
+                	else if((b_arr2[m-1]=='A'||b_arr2[m-1]=='a') && (b_arr2[m] =='N'||b_arr2[m] =='n'))
+                        	{
+				a=0.217; b=-0.031; c=1.889; d=1.339; e=1.456; f=0.181; g=-0.275; h=0.367; i=0.122; j=-9.943; k=1.578; l=-0.030; ma=0.255; n=3.288; o=-0.765; p=-0.814; q=33.937; r=3.193; s=33.419; t=-46.437; u=44.904; v=46.933; w=129.438; x=-43.093; y=-68.523; z=-105.858; aa=100.244; ab=38.502; ac=-7.009; ad=-27.170; ae=-172.176;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -409,10 +424,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='T'||b_arr2[m-1]==='t') && (b_arr2[m] ==='G'||b_arr2[m] ==='g'))
-			{
-				a=0.37; b=0.13; c=2.95; d=0.92; e=1.14; f=-0.11; g=-0.15; h=0.05; i=-0.10; j=-11.18; k=0.94; l=-0.07; ma=0.52; n=3.29; o=-3.27; p=1.54; q=36.74; r=3.21; s=37.25; t=-54.96; u=31.41; v=54.48; w=129.46; x=-66.88; y=-45.88; z=-80.34; aa=71.5; ab=37.72; ac=-7.01; ad=-27.15; ae=-179.01;
+
+				}
+	                else if((b_arr2[m-1]=='T'||b_arr2[m-1]=='t') && (b_arr2[m] =='N'||b_arr2[m] =='n'))
+        	                {
+				a=0.217; b=-0.031; c=1.889; d=1.339; e=1.456; f=0.181; g=-0.275; h=0.367; i=0.122; j=-9.943; k=1.578; l=-0.030; ma=0.255; n=3.288; o=-0.765; p=-0.814; q=33.937; r=3.193; s=33.419; t=-46.437; u=44.904; v=46.933; w=129.438; x=-43.093; y=-68.523; z=-105.858; aa=100.244; ab=38.502; ac=-7.009; ad=-27.170; ae=-172.176;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -444,9 +460,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='A'||b_arr2[m-1]==='a') && (b_arr2[m] ==='G'||b_arr2[m] ==='g')){
-				a=0.26; b=0.25; c=2.17; d=0.26; e=1.73; f=0.15; g=-0.14; h=-0.13; i=1.18; j=-11.89; k=-3.66; l=-0.27; ma=0.21; n=3.02; o=3.69; p=-7.27; q=31.00; r=3.06; s=19.06; t=-43.67; u=40.44; v=56.13; w=129.45; x=-24.57; y=-40.17; z=-95; aa=82.29; ab=38.59; ac=-6.27; ad=-26.89; ae=-174.93; 
+
+				}
+                	else if(b_arr2[m-1]=='G' && b_arr2[m] =='N')
+                        	{
+				a=0.217; b=-0.031; c=1.889; d=1.339; e=1.456; f=0.181; g=-0.275; h=0.367; i=0.122; j=-9.943; k=1.578; l=-0.030; ma=0.255; n=3.288; o=-0.765; p=-0.814; q=33.937; r=3.193; s=33.419; t=-46.437; u=44.904; v=46.933; w=129.438; x=-43.093; y=-68.523; z=-105.858; aa=100.244; ab=38.502; ac=-7.009; ad=-27.170; ae=-172.176;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -478,9 +496,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='C'||b_arr2[m-1]==='c') && (b_arr2[m] ==='T'||b_arr2[m] ==='t')){
-				a=0.76; b=-0.36; c=1.42; d=7.88; e=1.56; f=-0.32; g=-0.20; h=-0.17; i=-3.29; j=-11.55; k=-3.68; l=-0.27; ma=0.21; n=3.02; o=3.69; p=-7.27; q=31.00; r=3.06; s=19.06; t=-23.58; u=28.9; v=23.10; w=130.80; x=-75.76; y=-25.08; z=-77.07; aa=57.48; ab=39.52; ac=-6.27; ad=-26.89; ae=-174.93; 
+
+				}
+	                else if(b_arr2[m-1]=='C' && b_arr2[m] =='N')
+        	                {
+				a=0.217; b=-0.031; c=1.889; d=1.339; e=1.456; f=0.181; g=-0.275; h=0.367; i=0.122; j=-9.943; k=1.578; l=-0.030; ma=0.255; n=3.288; o=-0.765; p=-0.814; q=33.937; r=3.193; s=33.419; t=-46.437; u=44.904; v=46.933; w=129.438; x=-43.093; y=-68.523; z=-105.858; aa=100.244; ab=38.502; ac=-7.009; ad=-27.170; ae=-172.176;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -512,9 +532,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='G'||b_arr2[m-1]==='g') && (b_arr2[m] ==='A'||b_arr2[m] ==='a')){
-  				a=-0.37; b=0.01; c=2.49; d=0.20; e=0.97; f=0.08; g=-0.17; h=0.12; i=6.19; j=-12.40; k=1.59; l=0.04; ma=-0.20; n=3.32; o=2.21; p=2.69; q=37.74; r=3.33; s=37.81; t=-38.95; u=43.75; v=59.92; w=133.22; x=1.98; y=-95.11; z=-112.45; aa=117.49; ab=38.28; ac=-7.80; ad=-26.78; ae=-167.60;
+
+				}
+                	else if(b_arr2[m-1]=='N' && b_arr2[m] =='A')
+                        	{
+				a=0.217; b=-0.031; c=1.889; d=1.339; e=1.456; f=0.181; g=-0.275; h=0.367; i=0.122; j=-9.943; k=1.578; l=-0.030; ma=0.255; n=3.288; o=-0.765; p=-0.814; q=33.937; r=3.193; s=33.419; t=-46.437; u=44.904; v=46.933; w=129.438; x=-43.093; y=-68.523; z=-105.858; aa=100.244; ab=38.502; ac=-7.009; ad=-27.170; ae=-172.176;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -546,9 +568,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='T'||b_arr2[m-1]==='t') && (b_arr2[m] ==='C'||b_arr2[m] ==='c')){
-				a=0.11; b=0.16; c=-1.93; d=1.45; e=1.44; f=0.01; g=-0.23; h=0.34; i=-10.37; j=-14.05; k=0.13; l=0.04; ma=-0.20; n=3.32; o=2.21; p=2.69; q=37.74; r=3.33; s=37.81; t=-48.09; u=71.46; v=43.54; w=128.74; x=-23.17; y=-92.33; z=-108.78; aa=119.22; ab=37.44; ac=-7.80; ad=-26.78; ae=-167.60;
+
+				}
+	                else if(b_arr2[m-1]=='N' && b_arr2[m] =='T')
+        	                {
+				a=0.217; b=-0.031; c=1.889; d=1.339; e=1.456; f=0.181; g=-0.275; h=0.367; i=0.122; j=-9.943; k=1.578; l=-0.030; ma=0.255; n=3.288; o=-0.765; p=-0.814; q=33.937; r=3.193; s=33.419; t=-46.437; u=44.904; v=46.933; w=129.438; x=-43.093; y=-68.523; z=-105.858; aa=100.244; ab=38.502; ac=-7.009; ad=-27.170; ae=-172.176;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -580,9 +604,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='A'||b_arr2[m-1]==='a') && (b_arr2[m] ==='N'||b_arr2[m] ==='n')){
-				a=0.20; b=-0.04; c=1.74; d=1.55; e=1.46; f=0.18; g=-0.28; h=0.39; i=-0.15; j=-7.71; k=1.14; l=-0.03; ma=0.26; n=3.29; o=-0.77; p=-0.81; q=33.94; r=3.19; s=33.42; t=-45.87; u=45.06; v=46.88; w=129.17; x=-41.40; y=-88; z=-104.48; aa=99.36; ab=38.41; ac=-7.01; ad=-27.07; ae=-172.06;
+
+				}
+                	else if(b_arr2[m-1]=='N' && b_arr2[m] =='G')
+                        	{
+				a=0.217; b=-0.031; c=1.889; d=1.339; e=1.456; f=0.181; g=-0.275; h=0.367; i=0.122; j=-9.943; k=1.578; l=-0.030; ma=0.255; n=3.288; o=-0.765; p=-0.814; q=33.937; r=3.193; s=33.419; t=-46.437; u=44.904; v=46.933; w=129.438; x=-43.093; y=-68.523; z=-105.858; aa=100.244; ab=38.502; ac=-7.009; ad=-27.170; ae=-172.176;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -614,9 +640,11 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if((b_arr2[m-1]==='T'||b_arr2[m-1]==='t') && (b_arr2[m] ==='N'||b_arr2[m] ==='n')){
-				a=0.20; b=-0.04; c=1.74; d=1.55; e=1.46; f=0.18; g=-0.28; h=0.39; i=-0.15; j=-7.71; k=1.14; l=-0.03; ma=0.26; n=3.29; o=-0.77; p=-0.81; q=33.94; r=3.19; s=33.42; t=-45.87; u=45.06; v=46.88; w=129.17; x=-41.40; y=-88; z=-104.48; aa=99.36; ab=38.41; ac=-7.01; ad=-27.07; ae=-172.06;
+
+				}
+	                else if(b_arr2[m-1]=='N' && b_arr2[m] =='C')
+        	                {
+				a=0.217; b=-0.031; c=1.889; d=1.339; e=1.456; f=0.181; g=-0.275; h=0.367; i=0.122; j=-9.943; k=1.578; l=-0.030; ma=0.255; n=3.288; o=-0.765; p=-0.814; q=33.937; r=3.193; s=33.419; t=-46.437; u=44.904; v=46.933; w=129.438; x=-43.093; y=-68.523; z=-105.858; aa=100.244; ab=38.502; ac=-7.009; ad=-27.170; ae=-172.176;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
 				param_map['c'].push(c);
@@ -648,279 +676,109 @@ var getParameterDetails = {
 				param_map['ac'].push(ac);
 				param_map['ad'].push(ad);
 				param_map['ae'].push(ae);
-			}
-			else if(b_arr2[m-1]==='G' && b_arr2[m] ==='N'){
-				a=0.20; b=-0.04; c=1.74; d=1.55; e=1.46; f=0.18; g=-0.28; h=0.39; i=-0.15; j=-7.71; k=1.14; l=-0.03; ma=0.26; n=3.29; o=-0.77; p=-0.81; q=33.94; r=3.19; s=33.42; t=-45.87; u=45.06; v=46.88; w=129.17; x=-41.40; y=-88; z=-104.48; aa=99.36; ab=38.41; ac=-7.01; ad=-27.07; ae=-172.06;
-				param_map['a'].push(a);
-				param_map['b'].push(b);
-				param_map['c'].push(c);
-				param_map['d'].push(d);
-				param_map['e'].push(e);
-				param_map['f'].push(f);
-				param_map['g'].push(g);
-				param_map['h'].push(h);
-				param_map['i'].push(i);
-				param_map['j'].push(j);
-				param_map['k'].push(k);
-				param_map['l'].push(l);
-				param_map['ma'].push(ma);
-				param_map['n'].push(n);
-				param_map['o'].push(o);
-				param_map['p'].push(p);
-				param_map['q'].push(q);
-				param_map['r'].push(r);
-				param_map['s'].push(s);
-				param_map['t'].push(t);
-				param_map['u'].push(u);
-				param_map['v'].push(v);
-				param_map['w'].push(w);
-				param_map['x'].push(x);
-				param_map['y'].push(y);
-				param_map['z'].push(z);
-				param_map['aa'].push(aa);
-				param_map['ab'].push(ab);
-				param_map['ac'].push(ac);
-				param_map['ad'].push(ad);
-				param_map['ae'].push(ae);
-			}
-			else if(b_arr2[m-1]==='C' && b_arr2[m] ==='N'){
-				a=0.20; b=-0.04; c=1.74; d=1.55; e=1.46; f=0.18; g=-0.28; h=0.39; i=-0.15; j=-7.71; k=1.14; l=-0.03; ma=0.26; n=3.29; o=-0.77; p=-0.81; q=33.94; r=3.19; s=33.42; t=-45.87; u=45.06; v=46.88; w=129.17; x=-41.40; y=-88; z=-104.48; aa=99.36; ab=38.41; ac=-7.01; ad=-27.07; ae=-172.06;
-				param_map['a'].push(a);
-				param_map['b'].push(b);
-				param_map['c'].push(c);
-				param_map['d'].push(d);
-				param_map['e'].push(e);
-				param_map['f'].push(f);
-				param_map['g'].push(g);
-				param_map['h'].push(h);
-				param_map['i'].push(i);
-				param_map['j'].push(j);
-				param_map['k'].push(k);
-				param_map['l'].push(l);
-				param_map['ma'].push(ma);
-				param_map['n'].push(n);
-				param_map['o'].push(o);
-				param_map['p'].push(p);
-				param_map['q'].push(q);
-				param_map['r'].push(r);
-				param_map['s'].push(s);
-				param_map['t'].push(t);
-				param_map['u'].push(u);
-				param_map['v'].push(v);
-				param_map['w'].push(w);
-				param_map['x'].push(x);
-				param_map['y'].push(y);
-				param_map['z'].push(z);
-				param_map['aa'].push(aa);
-				param_map['ab'].push(ab);
-				param_map['ac'].push(ac);
-				param_map['ad'].push(ad);
-				param_map['ae'].push(ae);
-			}
-			else if(b_arr2[m-1]==='N' && b_arr2[m] ==='A'){
-				a=0.20; b=-0.04; c=1.74; d=1.55; e=1.46; f=0.18; g=-0.28; h=0.39; i=-0.15; j=-7.71; k=1.14; l=-0.03; ma=0.26; n=3.29; o=-0.77; p=-0.81; q=33.94; r=3.19; s=33.42; t=-45.87; u=45.06; v=46.88; w=129.17; x=-41.40; y=-88; z=-104.48; aa=99.36; ab=38.41; ac=-7.01; ad=-27.07; ae=-172.06;
-				param_map['a'].push(a);
-				param_map['b'].push(b);
-				param_map['c'].push(c);
-				param_map['d'].push(d);
-				param_map['e'].push(e);
-				param_map['f'].push(f);
-				param_map['g'].push(g);
-				param_map['h'].push(h);
-				param_map['i'].push(i);
-				param_map['j'].push(j);
-				param_map['k'].push(k);
-				param_map['l'].push(l);
-				param_map['ma'].push(ma);
-				param_map['n'].push(n);
-				param_map['o'].push(o);
-				param_map['p'].push(p);
-				param_map['q'].push(q);
-				param_map['r'].push(r);
-				param_map['s'].push(s);
-				param_map['t'].push(t);
-				param_map['u'].push(u);
-				param_map['v'].push(v);
-				param_map['w'].push(w);
-				param_map['x'].push(x);
-				param_map['y'].push(y);
-				param_map['z'].push(z);
-				param_map['aa'].push(aa);
-				param_map['ab'].push(ab);
-				param_map['ac'].push(ac);
-				param_map['ad'].push(ad);
-				param_map['ae'].push(ae);
-			}
-			else if(b_arr2[m-1]==='N' && b_arr2[m] ==='T'){
-				a=0.20; b=-0.04; c=1.74; d=1.55; e=1.46; f=0.18; g=-0.28; h=0.39; i=-0.15; j=-7.71; k=1.14; l=-0.03; ma=0.26; n=3.29; o=-0.77; p=-0.81; q=33.94; r=3.19; s=33.42; t=-45.87; u=45.06; v=46.88; w=129.17; x=-41.40; y=-88; z=-104.48; aa=99.36; ab=38.41; ac=-7.01; ad=-27.07; ae=-172.06;
-				param_map['a'].push(a);
-				param_map['b'].push(b);
-				param_map['c'].push(c);
-				param_map['d'].push(d);
-				param_map['e'].push(e);
-				param_map['f'].push(f);
-				param_map['g'].push(g);
-				param_map['h'].push(h);
-				param_map['i'].push(i);
-				param_map['j'].push(j);
-				param_map['k'].push(k);
-				param_map['l'].push(l);
-				param_map['ma'].push(ma);
-				param_map['n'].push(n);
-				param_map['o'].push(o);
-				param_map['p'].push(p);
-				param_map['q'].push(q);
-				param_map['r'].push(r);
-				param_map['s'].push(s);
-				param_map['t'].push(t);
-				param_map['u'].push(u);
-				param_map['v'].push(v);
-				param_map['w'].push(w);
-				param_map['x'].push(x);
-				param_map['y'].push(y);
-				param_map['z'].push(z);
-				param_map['aa'].push(aa);
-				param_map['ab'].push(ab);
-				param_map['ac'].push(ac);
-				param_map['ad'].push(ad);
-				param_map['ae'].push(ae);
-			}
-			else if(b_arr2[m-1]==='N' && b_arr2[m] ==='G'){
-				a=0.20; b=-0.04; c=1.74; d=1.55; e=1.46; f=0.18; g=-0.28; h=0.39; i=-0.15; j=-7.71; k=1.14; l=-0.03; ma=0.26; n=3.29; o=-0.77; p=-0.81; q=33.94; r=3.19; s=33.42; t=-45.87; u=45.06; v=46.88; w=129.17; x=-41.40; y=-88; z=-104.48; aa=99.36; ab=38.41; ac=-7.01; ad=-27.07; ae=-172.06;
-				param_map['a'].push(a);
-				param_map['b'].push(b);
-				param_map['c'].push(c);
-				param_map['d'].push(d);
-				param_map['e'].push(e);
-				param_map['f'].push(f);
-				param_map['g'].push(g);
-				param_map['h'].push(h);
-				param_map['i'].push(i);
-				param_map['j'].push(j);
-				param_map['k'].push(k);
-				param_map['l'].push(l);
-				param_map['ma'].push(ma);
-				param_map['n'].push(n);
-				param_map['o'].push(o);
-				param_map['p'].push(p);
-				param_map['q'].push(q);
-				param_map['r'].push(r);
-				param_map['s'].push(s);
-				param_map['t'].push(t);
-				param_map['u'].push(u);
-				param_map['v'].push(v);
-				param_map['w'].push(w);
-				param_map['x'].push(x);
-				param_map['y'].push(y);
-				param_map['z'].push(z);
-				param_map['aa'].push(aa);
-				param_map['ab'].push(ab);
-				param_map['ac'].push(ac);
-				param_map['ad'].push(ad);
-				param_map['ae'].push(ae);
-			}
-			else if(b_arr2[m-1]==='N' && b_arr2[m] ==='C'){
-				a=0.20; b=-0.04; c=1.74; d=1.55; e=1.46; f=0.18; g=-0.28; h=0.39; i=-0.15; j=-7.71; k=1.14; l=-0.03; ma=0.26; n=3.29; o=-0.77; p=-0.81; q=33.94; r=3.19; s=33.42; t=-45.87; u=45.06; v=46.88; w=129.17; x=-41.40; y=-88; z=-104.48; aa=99.36; ab=38.41; ac=-7.01; ad=-27.07; ae=-172.06;
-				param_map['a'].push(a);
-				param_map['b'].push(b);
-				param_map['c'].push(c);
-				param_map['d'].push(d);
-				param_map['e'].push(e);
-				param_map['f'].push(f);
-				param_map['g'].push(g);
-				param_map['h'].push(h);
-				param_map['i'].push(i);
-				param_map['j'].push(j);
-				param_map['k'].push(k);
-				param_map['l'].push(l);
-				param_map['ma'].push(ma);
-				param_map['n'].push(n);
-				param_map['o'].push(o);
-				param_map['p'].push(p);
-				param_map['q'].push(q);
-				param_map['r'].push(r);
-				param_map['s'].push(s);
-				param_map['t'].push(t);
-				param_map['u'].push(u);
-				param_map['v'].push(v);
-				param_map['w'].push(w);
-				param_map['x'].push(x);
-				param_map['y'].push(y);
-				param_map['z'].push(z);
-				param_map['aa'].push(aa);
-				param_map['ab'].push(ab);
-				param_map['ac'].push(ac);
-				param_map['ad'].push(ad);
-				param_map['ae'].push(ae);
-			}
-			else if(b_arr2[m-1]==='N' && b_arr2[m] ==='N'){
-				a=0.20; b=-0.04; c=1.74; d=1.55; e=1.46; f=0.18; g=-0.28; h=0.39; i=-0.15; j=-7.71; k=1.14; l=-0.03; ma=0.26; n=3.29; o=-0.77; p=-0.81; q=33.94; r=3.19; s=33.42; t=-45.87; u=45.06; v=46.88; w=129.17; x=-41.40; y=-88; z=-104.48; aa=99.36; ab=38.41; ac=-7.01; ad=-27.07; ae=-172.06;
-				param_map['a'].push(a);
-				param_map['b'].push(b);
-				param_map['c'].push(c);
-				param_map['d'].push(d);
-				param_map['e'].push(e);
-				param_map['f'].push(f);
-				param_map['g'].push(g);
-				param_map['h'].push(h);
-				param_map['i'].push(i);
-				param_map['j'].push(j);
-				param_map['k'].push(k);
-				param_map['l'].push(l);
-				param_map['ma'].push(ma);
-				param_map['n'].push(n);
-				param_map['o'].push(o);
-				param_map['p'].push(p);
-				param_map['q'].push(q);
-				param_map['r'].push(r);
-				param_map['s'].push(s);
-				param_map['t'].push(t);
-				param_map['u'].push(u);
-				param_map['v'].push(v);
-				param_map['w'].push(w);
-				param_map['x'].push(x);
-				param_map['y'].push(y);
-				param_map['z'].push(z);
-				param_map['aa'].push(aa);
-				param_map['ab'].push(ab);
-				param_map['ac'].push(ac);
-				param_map['ad'].push(ad);
-				param_map['ae'].push(ae);
-			}
+
+				}
+				else if(b_arr2[m-1]=='N' && b_arr2[m] =='N')
+				{
+					a=0.217; b=-0.031; c=1.889; d=1.339; e=1.456; f=0.181; g=-0.275; h=0.367; i=0.122; j=-9.943; k=1.578; l=-0.030; ma=0.255; n=3.288; o=-0.765; p=-0.814; q=33.937; r=3.193; s=33.419; t=-46.437; u=44.904; v=46.933; w=129.438; x=-43.093; y=-68.523; z=-105.858; aa=100.244; ab=38.502; ac=-7.009; ad=-27.170; ae=-172.176;
+					param_map['a'].push(a);
+					param_map['b'].push(b);
+					param_map['c'].push(c);
+					param_map['d'].push(d);
+					param_map['e'].push(e);
+					param_map['f'].push(f);
+					param_map['g'].push(g);
+					param_map['h'].push(h);
+					param_map['i'].push(i);
+					param_map['j'].push(j);
+					param_map['k'].push(k);
+					param_map['l'].push(l);
+					param_map['ma'].push(ma);
+					param_map['n'].push(n);
+					param_map['o'].push(o);
+					param_map['p'].push(p);
+					param_map['q'].push(q);
+					param_map['r'].push(r);
+					param_map['s'].push(s);
+					param_map['t'].push(t);
+					param_map['u'].push(u);
+					param_map['v'].push(v);
+					param_map['w'].push(w);
+					param_map['x'].push(x);
+					param_map['y'].push(y);
+					param_map['z'].push(z);
+					param_map['aa'].push(aa);
+					param_map['ab'].push(ab);
+					param_map['ac'].push(ac);
+					param_map['ad'].push(ad);
+					param_map['ae'].push(ae);
+				}
 		}
 
-		parameters_map.values_map[key] = param_map;
-		return self.calculateMovingAverages(key, cb);
+		return self.calculateMovingAverages(key, param_map);
 	},
 
-	calculateMovingAverages: function(key, cb){
-		var param_map = parameters_map.values_map[key];
+	calculateMovingAverages: function(key, param_map){
 		var moving_win_size = constants.MOVING_AVG_WINDOW_SIZE;
 
-		var moving_param_map = {a:[],b:[],c:[],d:[],e:[],f:[],g:[],h:[],i:[],j:[],k:[],l:[],ma:[],n:[],o:[],p:[],q:[],r:[],s:[],t:[],u:[],v:[],w:[],x:[],y:[],z:[],aa:[],ab:[],ac:[],ad:[],ae:[]};
+		var moving_param_map = {};
 
 		Object.keys(param_map).forEach(function(k){
 
 			var arr = param_map[k];
-
+			
+			if(moving_param_map[k] === undefined)
+				moving_param_map[k] = [];
+			
 			for(var i=0; i<(arr.length-moving_win_size); i++){
 				var sum = 0;
 				for(var j=i; j<(i+moving_win_size); j++){
 					sum+=arr[j];
 				}
 				var avg = sum/moving_win_size;
-				moving_param_map[k].push(Number(avg.toFixed(4)));
+
+				moving_param_map[k].push(avg);
 			}
 		});
 
-		parameters_map.moving_averages_map[key] = moving_param_map;
-		return cb();
-	}
+		return self.normalizeMovingAverages(key, moving_param_map);
+	},
 
+	normalizeMovingAverages: function(key, moving_param_map){
+		var normalized_map = {};
+
+		Object.keys(moving_param_map).forEach(function(k){
+			var arr = moving_param_map[k];
+			var max = Math.max.apply(null,arr);
+			var min = Math.min.apply(null,arr);
+
+			// for(var i=0; i<arr.length; i++)
+			// 	if(arr[i]<min)
+			// 		min = arr[i];
+			// for(var i=0; i<arr.length; i++)
+			// 	if(arr[i]>max)
+			// 		max = arr[i];
+
+			var range = max - min;
+
+			if(normalized_map[k] === undefined)
+				normalized_map[k] = [];
+
+			for(var i=0; i<arr.length;i++){
+				var norm_val=0;
+				norm_val = (arr[i] - min)/range;
+				normalized_map[k].push(Number(norm_val.toFixed(6)));
+			}
+		});
+
+		return normalized_map;
+	}
 };
 
 var self = module.exports = getParameterDetails;
 
+
+//********************TestCode**********************
 (function () {
 	if (require.main === module) {
 		getParameterDetails.calculateParameters(1, console.log);
