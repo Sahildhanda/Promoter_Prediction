@@ -14,9 +14,13 @@ module.exports = function (file, cb){
 		r = r.split('\n');
 		var itr = 1;
 		r.forEach(function(seq){
-			if(seq){
+			if(seq && seq !== undefined && seq !== '' && seq.length >1000){
 				sequenceMap[itr] = seq;
 				itr++;
+			}
+			else{
+				console.log('Invalid Sequence: ' +itr);
+				itr++
 			}
 		});
 

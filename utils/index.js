@@ -3,5 +3,6 @@
 module.exports = {
 	pcaMap: require('./pcaMap'),
 	sequenceMap: require('./sequenceMap'),
-	parameterMap: require('./parameterMap')
+	parameterMap: require('./parameterMap'),
+	predictedResultsMap: require('./predictedResultsMap')
 };

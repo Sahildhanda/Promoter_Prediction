@@ -3,13 +3,18 @@
 var lib = require('../lib');
 var bin = require('../bin');
 var utils = require('../utils');
-var principalComponentAnalysis = require('./principalComponentAnalysis');
+var predictedResultsMap = utils.predictedResultsMap;
+var predicted_results = predictedResultsMap.predicted_results;
+
+var pca = require('./principalComponentAnalysis');
+var lr = require('./logisticRegression');
 
 var constants = lib.constants;
 var parameter_map = utils.parameterMap;
 
-var pca_40 = principalComponentAnalysis.init(bin.pcaTrainingDataset_40);
-var pca_80 = principalComponentAnalysis.init(bin.pcaTrainingDataset_80);
+var pca_equations = lib.pcaEquations;
+var reg_equations = lib.regEquations;
+
 
 function extractWindow(start, stop, params, params_map){
 	var arr = [];
@@ -41,6 +46,15 @@ function extractWindow40(motif_start, motif_stop, params, params_map){
 }
 
 var predictTss = {
+	iterateSequences: function(){
+		var final_result = {};
+		var normalized_map = parameter_map.normalized_params_map;
+		Object.keys(normalized_map).forEach(function(seq){
+			final_result[seq] = self.iterate(seq);
+		});
+		return final_result;
+	},
+
 	iterate: function(seq){
 		var normalized_map = parameter_map.normalized_params_map;
 		
@@ -48,17 +62,20 @@ var predictTss = {
 		var params = Object.keys(params_map);
 		var len = params_map[params[0]].length;
 		
-		var i=-1;
+		var i=0;
 
 		var seq_40_map = {};
 		var seq_80_map = {};
+		//temp_check
+//var i=424;
+//len =786;
 
 		while((i+constants.ITR_WINDOW_SIZE+constants.NO_TSS_WINDOW_LENGTH+constants.ITR_WINDOW_SIZE)<=len){
 			var tss_motif_start = i;
 			var tss_motif_stop = tss_motif_start+constants.ITR_WINDOW_SIZE;
 			var no_tss_motif_start = tss_motif_stop+constants.NO_TSS_WINDOW_LENGTH;
 			var no_tss_motif_stop = no_tss_motif_start+constants.ITR_WINDOW_SIZE;
-			//console.log(tss_motif_start, tss_motif_stop, no_tss_motif_start, no_tss_motif_stop)
+//			console.log(tss_motif_start, tss_motif_stop, no_tss_motif_start, no_tss_motif_stop)
 			
 			var tss_window_40_arr = extractWindow40(tss_motif_start, tss_motif_stop, params, params_map);
 			var no_tss_window_40_arr = extractWindow40(no_tss_motif_start, no_tss_motif_stop, params, params_map);
@@ -76,32 +93,54 @@ var predictTss = {
 
 			i+=constants.SKIP_WINDOW;
 		}
-		return self.predictPCA(seq_40_map, seq_80_map);
+		parameter_map.normalized_params_map[seq] = {};
+		return self.predictPCA(seq, seq_40_map, seq_80_map);
 	},
 
-	predictPCA: function(seq_40_map, seq_80_map){
-		var start_40 = [];
-		var start_80 = [];
-		var data_40 = [];
-		var data_80 = [];
-		var label_40 = [];
-		var label_80 = [];
+	predictPCA: function(seq, seq_40_map, seq_80_map){
 
 		Object.keys(seq_40_map).forEach(function(start){
-			start_40.push(start);
-			data_40.push(seq_40_map[start][0]);
-			label_40.push(1);
-			data_40.push(seq_40_map[start][1]);
-			label_40.push(0);
+			seq_40_map[start][0] = pca.getPCAs(seq_40_map[start][0],pca_equations.window_40);
+			seq_40_map[start][1] = pca.getPCAs(seq_40_map[start][1],pca_equations.window_40);
 		});
+
 		Object.keys(seq_80_map).forEach(function(start){
-			start_80.push(start);
-			data_80.push(seq_80_map[start][0]);
-			label_80.push(1);
-			data_80.push(seq_80_map[start][1]);
-			label_80.push(0);
+			seq_80_map[start][0] = pca.getPCAs(seq_80_map[start][0],pca_equations.window_80);
+			seq_80_map[start][1] = pca.getPCAs(seq_80_map[start][1],pca_equations.window_80);
 		});
-		console.log(pca_80)
+
+		return self.predictRegression(seq, seq_40_map, seq_80_map);
+	},
+
+	predictRegression: function(seq, seq_40_map, seq_80_map){
+
+		var final_result = [];
+		var map_40 = {}, map_80 = {};
+
+		Object.keys(seq_40_map).forEach(function(start){
+			seq_40_map[start][0] = lr.predict(seq_40_map[start][0],reg_equations.window_40, constants.WINDOW_40_PROB);
+			seq_40_map[start][1] = lr.predict(seq_40_map[start][1],reg_equations.window_40, constants.WINDOW_40_PROB);
+		});
+
+		Object.keys(seq_80_map).forEach(function(start){
+			seq_80_map[start][0] = lr.predict(seq_80_map[start][0],reg_equations.window_80, constants.WINDOW_80_PROB);
+			seq_80_map[start][1] = lr.predict(seq_80_map[start][1],reg_equations.window_80, constants.WINDOW_80_PROB);
+		});
+		return self.processResults(seq, seq_40_map, seq_80_map);
+	},
+
+	processResults: function(seq, seq_40_map, seq_80_map){
+		var combined_result_map = {};
+		Object.keys(seq_40_map).forEach(function(start){
+			var res_40_tss = seq_40_map[start][0];
+			var res_40_notss = seq_40_map[start][1];
+			var res_80_tss = seq_80_map[start][0];
+			var res_80_notss = seq_80_map[start][1];
+			combined_result_map[start] = [];
+			combined_result_map[start].push(res_40_tss||res_80_tss);
+			combined_result_map[start].push(res_40_notss||res_80_notss);
+		});
+		return combined_result_map;
 	}
 };
 

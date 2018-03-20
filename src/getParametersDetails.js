@@ -6,15 +6,28 @@ var sequence_map = utils.sequenceMap;
 var parameters_map = utils.parameterMap;
 var constants = lib.constants;
 
+var structuralIncreasing_params=['k','p','q','s','u','v','x','g','n','r','aa','ab'];
+var structuralDecreasing_params=['a','b','f','h','l','ma','c','d','e','i','j','o','t','w','y','z'];
+
+var energyIncreasing_params=['ac','ad'];
+var energyDecreasing_params=['ac'];
 
 var getParameterDetails = {
 	iterateSequences: function(cb){
 		var keys = Object.keys(sequence_map);
 
 		keys.forEach(function(key){
+			console.log(key)
 			parameters_map.normalized_params_map[key] = self.calculateParameters(key);
-		});
 
+			parameters_map.combined_params_map['energyDecreasing_params'][key] = self.combineStructEnergyParams(key, energyDecreasing_params);
+			parameters_map.combined_params_map['energyIncreasing_params'][key] = self.combineStructEnergyParams(key, energyIncreasing_params);
+			parameters_map.combined_params_map['structuralIncreasing_params'][key] = self.combineStructEnergyParams(key, structuralIncreasing_params);
+			parameters_map.combined_params_map['structuralDecreasing_params'][key] = self.combineStructEnergyParams(key, structuralDecreasing_params);
+			//Temporary
+			parameters_map.normalized_params_map[key] = {};
+		});
+		parameters_map.combined_params_map = self.transformStructEnerMap(parameters_map.combined_params_map);
 		return cb();
 	},
 
@@ -29,9 +42,8 @@ var getParameterDetails = {
 		if(!noofbases) return cb();
 
 		for(var m =1; m<noofbases; m++){
-
-        		if((b_arr2[m-1]=='A' && b_arr2[m]=='A') || (b_arr2[m-1]=='T' && b_arr2[m]=='T'))
-				{
+        	if((b_arr2[m-1]=='A' && b_arr2[m]=='A') || (b_arr2[m-1]=='T' && b_arr2[m]=='T'))
+			{
 				 a=-0.24586;     b=0.004276;     c=-0.61382;     d=0.596711;     e=1.421711;     f=0.128291;     g=-0.17956;     h=0.120633;     i=-1.48165;     j=-15.3082;     k=3.158861;     l=-0.11;        ma=-0.2; n=3.25; o=0.63; p=-0.08;        q=35.67;        r=3.27; s=35.56;        t=-55.5495;     u=51.04402;     v=50.77228;     w=128.4076;     x=-5.92446;     y=-96.656;      z=-110.254;     aa=118.7842;    ab=38.99565;    ac=-5.44;       ad=-26.71;      ae=-171.84;
 				param_map['a'].push(a);
 				param_map['b'].push(b);
@@ -752,13 +764,6 @@ var getParameterDetails = {
 			var max = Math.max.apply(null,arr);
 			var min = Math.min.apply(null,arr);
 
-			// for(var i=0; i<arr.length; i++)
-			// 	if(arr[i]<min)
-			// 		min = arr[i];
-			// for(var i=0; i<arr.length; i++)
-			// 	if(arr[i]>max)
-			// 		max = arr[i];
-
 			var range = max - min;
 
 			if(normalized_map[k] === undefined)
@@ -772,6 +777,36 @@ var getParameterDetails = {
 		});
 
 		return normalized_map;
+	},
+
+	combineStructEnergyParams: function(key, array){
+		var normalized_map = parameters_map.normalized_params_map[key];
+
+		var map = {};
+		array.forEach(function(k){
+			var arr = normalized_map[k];
+			for(var i=0;i<arr.length;i++){
+				if(map[i] === undefined)
+					map[i]=0;
+				map[i]+=arr[i];
+			}
+		});
+		return map;
+	},
+
+	transformStructEnerMap: function(struct_ener_map){
+		var transformed_map = {};
+		Object.keys(struct_ener_map).forEach(function(k){
+			var map = struct_ener_map[k];
+			Object.keys(map).forEach(function(seq){
+				if(transformed_map[seq] === undefined)
+					transformed_map[seq] = {};
+				if(transformed_map[seq][k] === undefined)
+					transformed_map[seq][k] = {};
+				transformed_map[seq][k] = map[seq];
+			});
+		});
+		return transformed_map;
 	}
 };
 
