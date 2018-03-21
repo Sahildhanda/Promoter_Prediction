@@ -90,7 +90,7 @@ function compareATContent(seq1,seq2){
 }
 
 var sequenceAlgorithm = {
-	iterateSequences: function(cb){
+	iterateSequences: function(){
 		var keys = Object.keys(sequence_map);
 
 		keys.forEach(function(key){
@@ -98,7 +98,7 @@ var sequenceAlgorithm = {
 			self.getGCContent(key);
 		});
 
-		return cb();
+		return;
 	},
 	
 	getGCContent: function(key){

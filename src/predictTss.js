@@ -114,8 +114,6 @@ var predictTss = {
 
 	predictRegression: function(seq, seq_40_map, seq_80_map){
 
-		var final_result = [];
-		var map_40 = {}, map_80 = {};
 
 		Object.keys(seq_40_map).forEach(function(start){
 			seq_40_map[start][0] = lr.predict(seq_40_map[start][0],reg_equations.window_40, constants.WINDOW_40_PROB);

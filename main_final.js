@@ -24,6 +24,8 @@ else{
 
 		src.getParametersDetails.iterateSequences(function(e){
 			if(e) return console.log(e);
+
+			
 		});
 	});
 }
