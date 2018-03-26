@@ -1,14 +1,12 @@
 "use strict";
 
 var lib = require('../lib');
-var bin = require('../bin');
 var utils = require('../utils');
 
 var constants = lib.constants;
 var parameters_map = utils.parameterMap;
 
 var predictedResultsMap = utils.predictedResultsMap;
-var predicted_results = predictedResultsMap.predicted_results;
 
 var pca_equations = lib.pcaEquations;
 var reg_equations = lib.regEquations;
@@ -73,13 +71,14 @@ var motifsAlgorithm = {
 		var final_result = {};
 		var combined_params_map = parameters_map.combined_params_map;
 		Object.keys(combined_params_map).forEach(function(seq){
+
 			final_result[seq] = self.iterate(seq);
 		});
 		return final_result;
-
 	},
 
 	iterate: function(seq){
+		console.log(seq)
 		var motif_map = {};
 		var struct_ener_map = parameters_map.combined_params_map[seq];
 		var params = Object.keys(struct_ener_map);
@@ -113,12 +112,12 @@ var motifsAlgorithm = {
 						motif_map[tss_motif_start]['m_'+k][j] = {};
 					motif_map[tss_motif_start]['m_'+k][j][1] = extractWindow(tss_motif_start,tss_motif_stop,motif,dist_end,struct_ener_map);
 					motif_map[tss_motif_start]['m_'+k][j][0] = extractWindow(no_tss_motif_start,no_tss_motif_stop,motif,dist_end,struct_ener_map);
-
 				}
 			}
 			i+=constants.SKIP_WINDOW;
 
 		}
+		//console.log(motif_map[424]['m_0'])
 		//temp
 		parameters_map.combined_params_map[seq] = {};
 		//return motif_map;

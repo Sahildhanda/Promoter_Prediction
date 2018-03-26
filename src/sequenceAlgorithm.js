@@ -6,7 +6,6 @@ var utils = require('../utils');
 var constants = lib.constants;
 var sequence_map = utils.sequenceMap;
 
-var predicted_results = utils.predictedResultsMap.predicted_results;
 
 function extractWindow(start, stop, sequence){
 	return sequence.substring(start, stop);
@@ -92,13 +91,13 @@ function compareATContent(seq1,seq2){
 var sequenceAlgorithm = {
 	iterateSequences: function(){
 		var keys = Object.keys(sequence_map);
-
+		var final_map = {};
 		keys.forEach(function(key){
 			//console.log(key)
-			self.getGCContent(key);
+			final_map[key] = self.getGCContent(key);
 		});
 
-		return;
+		return final_map;
 	},
 	
 	getGCContent: function(key){
@@ -119,14 +118,14 @@ var sequenceAlgorithm = {
 		var i=0;
 		var sequence = sequence_map[key];
 		var len = sequence.length;
-		if(predicted_results[key] === undefined)
-			predicted_results[key] = {};
+		var predicted_results = {};
 
 		while((i+constants.ITR_WINDOW_SIZE+constants.NO_TSS_WINDOW_LENGTH+constants.ITR_WINDOW_SIZE)<=len){
 			var tss_motif_start = i;
 			var tss_motif_stop = tss_motif_start+constants.ITR_WINDOW_SIZE;
 			var no_tss_motif_start = tss_motif_stop+constants.NO_TSS_WINDOW_LENGTH;
 			var no_tss_motif_stop = no_tss_motif_start+constants.ITR_WINDOW_SIZE;
+			//console.log(tss_motif_start, tss_motif_stop, no_tss_motif_start, no_tss_motif_stop)
 
 			var tss_window_20 = extractWindow(tss_motif_stop-20, tss_motif_stop, sequence);
 			var no_tss_window_20 = extractWindow(no_tss_motif_stop-20, no_tss_motif_stop, sequence);
@@ -143,28 +142,27 @@ var sequenceAlgorithm = {
 
 			var result_80 = compareATContentAbove60(tss_window_80, no_tss_window_80);
 
-			if(predicted_results[key][tss_motif_start] === undefined)
-				predicted_results[key][tss_motif_start] = {};
+			if(predicted_results[tss_motif_start] === undefined)
+				predicted_results[tss_motif_start] = {};
 
 			var sum = result_20+result_40+result_80;
 
 			if(sum>=2)
-				predicted_results[key][tss_motif_start]['sequence_algo'] = 1;
+				predicted_results[tss_motif_start] = 1;
 			else
-				predicted_results[key][tss_motif_start]['sequence_algo'] = 0;
+				predicted_results[tss_motif_start] = 0;
 
 			i+=constants.SKIP_WINDOW_SEQUENCE;
 		}
 
-		return;
+		return predicted_results;
 	},
 
 	below60Algo: function(key){
 		var i=0;
 		var sequence = sequence_map[key];
 		var len = sequence.length;
-		if(predicted_results[key] === undefined)
-			predicted_results[key] = {};
+		var predicted_results = {};
 
 		while((i+constants.ITR_WINDOW_SIZE+constants.NO_TSS_WINDOW_LENGTH+constants.ITR_WINDOW_SIZE)<=len){
 			var tss_motif_start = i;
@@ -187,20 +185,20 @@ var sequenceAlgorithm = {
 
 			var result_80 = compareATContent(tss_window_80, no_tss_window_80);
 
-			if(predicted_results[key][tss_motif_start] === undefined)
-				predicted_results[key][tss_motif_start] = {};
+			if(predicted_results[tss_motif_start] === undefined)
+				predicted_results[tss_motif_start] = {};
 
 			var sum = result_20+result_40+result_80;
 
 			if(sum>=2)
-				predicted_results[key][tss_motif_start]['sequence_algo'] = 1;
+				predicted_results[tss_motif_start] = 1;
 			else
-				predicted_results[key][tss_motif_start]['sequence_algo'] = 0;
+				predicted_results[tss_motif_start] = 0;
 
 			i+=constants.SKIP_WINDOW_SEQUENCE;
 		}
 
-		return;
+		return predicted_results;
 	}
 
 };

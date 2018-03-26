@@ -25,7 +25,7 @@ var getParameterDetails = {
 			parameters_map.combined_params_map['structuralIncreasing_params'][key] = self.combineStructEnergyParams(key, structuralIncreasing_params);
 			parameters_map.combined_params_map['structuralDecreasing_params'][key] = self.combineStructEnergyParams(key, structuralDecreasing_params);
 			//Temporary
-			parameters_map.normalized_params_map[key] = {};
+			//parameters_map.normalized_params_map[key] = {};
 		});
 		parameters_map.combined_params_map = self.transformStructEnerMap(parameters_map.combined_params_map);
 		return cb();
@@ -752,7 +752,8 @@ var getParameterDetails = {
 				moving_param_map[k].push(avg);
 			}
 		});
-
+//		return moving_param_map;
+//Temp
 		return self.normalizeMovingAverages(key, moving_param_map);
 	},
 
