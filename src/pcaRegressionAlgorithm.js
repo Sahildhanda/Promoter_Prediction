@@ -54,7 +54,7 @@ var predictTss = {
 	},
 
 	iterate: function(seq){
-		console.log(seq)
+		console.log("Running PCA_Reg algo on sequence: ",seq)
 		var normalized_map = parameter_map.normalized_params_map;
 		
 		var params_map = normalized_map[seq];

@@ -78,7 +78,7 @@ var motifsAlgorithm = {
 	},
 
 	iterate: function(seq){
-		console.log(seq)
+		console.log("Running Motifs algorithm on sequence: ",seq);
 		var motif_map = {};
 		var struct_ener_map = parameters_map.combined_params_map[seq];
 		var params = Object.keys(struct_ener_map);

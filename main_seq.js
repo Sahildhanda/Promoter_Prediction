@@ -82,7 +82,7 @@ else{
 			var pos_map = src.processResults.getTssPositions(final_map);
 			//console.log(pos_map)
 			//var final_map = map_pca;
-			var path = './Results_Seq/PCA_Motif_Seq/5By3/Bacillus_Dataset_1_pcapoint65_tss';
+			var path = './Results_Seq/PCA_Motif_Seq/5By3/All_Organisms_Dataset1_5By3_Ignore35_Pca_Motif_Seq/thermo_pos+Seq';
 			writeFile.writeResults(path,final_map,console.log)
 			writeFile.writePositionFile(path,pos_map,console.log)
 
