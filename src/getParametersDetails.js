@@ -10,7 +10,7 @@ var structuralIncreasing_params=['k','p','q','s','u','v','x','g','n','r','aa','a
 var structuralDecreasing_params=['a','b','f','h','l','ma','c','d','e','i','j','o','t','w','y','z'];
 
 var energyIncreasing_params=['ac','ad'];
-var energyDecreasing_params=['ac'];
+var energyDecreasing_params=['ae'];
 
 var getParameterDetails = {
 	iterateSequences: function(cb){
